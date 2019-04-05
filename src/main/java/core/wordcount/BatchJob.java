@@ -1,6 +1,5 @@
 package core.wordcount;
 
-import core.mysql.Analysis;
 import core.mysql.JdbcReader;
 import core.mysql.JdbcWriter;
 import org.apache.flink.api.java.tuple.Tuple2;
@@ -16,8 +15,6 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
  */
 
 public class BatchJob {
-
-
 
     // *************************************************************************
     //     PROGRAM
