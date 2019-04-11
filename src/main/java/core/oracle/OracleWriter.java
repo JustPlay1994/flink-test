@@ -1,4 +1,4 @@
-package core.mysql;
+package core.oracle;
 
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.configuration.Configuration;
@@ -8,16 +8,20 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
-
-public class JdbcWriter extends RichSinkFunction<Tuple2<String,String>> {
+/**
+ * @Description mysql sink
+ * @Author jiangxiaozhi
+ * @Date 2018/10/15 18:31
+ **/
+public class OracleWriter extends RichSinkFunction<Tuple2<Double,Double>> {
     private Connection connection;
     private PreparedStatement preparedStatement;
 
-    String username = "root";
+    String username = "TEST";
     String password = "123456";
-    String url = "jdbc:mysql://localhost:3306/test?autoReconnect=true&useSSL=false&user="+username+"&password="+password;
-    String driver = "com.mysql.jdbc.Driver";
-    String sql = "insert into user1(account, password) VALUES(?,?)";
+    String url = "jdbc:oracle:thin:@10.217.17.71:1521/orcl";
+    String driver = "oracle.jdbc.OracleDriver";
+    String sql = "insert into BLK_SANXIAO_PLACE(jd84, wd84, object_id) VALUES(?,?,?)";
 
     @Override
     public void open(Configuration parameters) throws Exception {
@@ -25,7 +29,7 @@ public class JdbcWriter extends RichSinkFunction<Tuple2<String,String>> {
         // 加载JDBC驱动
         Class.forName(driver);
         // 获取数据库连接
-        connection = DriverManager.getConnection(url);//写入mysql数据库
+        connection = DriverManager.getConnection(url, username, password);//写入mysql数据库
         preparedStatement = connection.prepareStatement(sql);//insert sql在配置文件中
         super.open(parameters);
     }
@@ -43,12 +47,13 @@ public class JdbcWriter extends RichSinkFunction<Tuple2<String,String>> {
     }
  
     @Override
-    public void invoke(Tuple2<String,String> value, Context context) throws Exception {
+    public void invoke(Tuple2<Double,Double> value, Context context) throws Exception {
         try {
-            String account = value.getField(0);
-            String password = value.getField(1);
-            preparedStatement.setString(1,account);
-            preparedStatement.setString(2,password);
+            Double account = value.getField(0);
+            Double password = value.getField(1);
+            preparedStatement.setDouble(1,account);
+            preparedStatement.setDouble(2,password);
+            preparedStatement.setInt(3,IdGenerator.getId());
             preparedStatement.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();

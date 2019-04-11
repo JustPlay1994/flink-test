@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>　
+
+    <!-- 日志最大的历史 30天 -->
+    <property name="log.maxHistory" value="30"/>
+    <!-- 日志最大存储-->
+    <property name="log.totalSizeCap" value="3MB"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">　　
+        <!-- 输出的格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}:  %msg%n</pattern>
+        </encoder>
+        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+        <!--<level>INFO</level>-->
+        <!--<onMatch>ACCEPT</onMatch>-->
+        <!--<onMismatch>DENY</onMismatch>-->
+        <!--</filter>-->
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">　　　　
+        <file>log/project.log</file>
+        <append>true</append>
+        <!--按时间和大小滚动日志-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>log/project.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <MaxHistory>10</MaxHistory>
+            <maxFileSize>2MB</maxFileSize>
+        </rollingPolicy>
+        <!-- 输出的格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}:  %msg%n</pattern>
+        </encoder>
+        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+        <!--<level>INFO</level>-->
+        <!--<onMatch>ACCEPT</onMatch>-->
+        <!--<onMismatch>DENY</onMismatch>-->
+        <!--</filter>-->
+    </appender>
+    <appender name="FILEERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">　　　　
+        <file>error/project.error.log</file>
+        <append>true</append>
+        <!--按时间和大小滚动日志-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>error/project.error.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <MaxHistory>10</MaxHistory>
+            <maxFileSize>2MB</maxFileSize>
+        </rollingPolicy>
+        <!-- 输出的格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}:  %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <!--<root level="DEBUG">-->
+    <root level="INFO">
+        <!--<root level="ERROR">-->
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILEERROR"/>
+    </root>
+</configuration>
