@@ -9,8 +9,6 @@ import org.apache.flink.api.java.io.jdbc.JDBCInputFormat;
 import org.apache.flink.api.java.io.jdbc.JDBCOutputFormat;
 import org.apache.flink.api.java.operators.DataSource;
 import org.apache.flink.api.java.typeutils.RowTypeInfo;
-import org.apache.flink.table.api.TableConfig;
-import org.apache.flink.table.api.java.BatchTableEnvironment;
 import org.apache.flink.types.Row;
 
 /**
@@ -25,12 +23,6 @@ public class OracleBatchTable {
 
 //        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
-
-
-        TableConfig tableConfig = new TableConfig();
-
-
-        BatchTableEnvironment batchTableEnvironment = BatchTableEnvironment.getTableEnvironment(env);
 
         // Read data from a relational database using the JDBC input format
         DataSource<Row> dbData =
